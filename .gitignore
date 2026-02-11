@@ -35,3 +35,6 @@ out/
 .settings/
 .launch
 bin/
+
+# projetc specifics
+target/*
