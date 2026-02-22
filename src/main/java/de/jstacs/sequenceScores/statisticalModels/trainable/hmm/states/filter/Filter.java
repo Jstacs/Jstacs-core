@@ -6,7 +6,7 @@ import de.jstacs.sequenceScores.statisticalModels.trainable.hmm.AbstractHMM;
 
 /**
  * A filter based on a {@link Sequence} and a position.
- * This simple filter might be applied in/for {@link State}s of an {@link AbstractHMM}.
+ * This simple filter might be applied in/for {@link de.jstacs.sequenceScores.statisticalModels.trainable.hmm.states.State}s of an {@link AbstractHMM}.
  * 
  * @author Jens Keilwagen
  */
