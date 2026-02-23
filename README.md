@@ -1,6 +1,6 @@
-![Jstacs Logo](assets/jstacs-logo.jpg)
-
 # Jstacs
+
+![Jstacs Logo](assets/jstacs-logo.jpg)
 
 Jstacs is an open-source Java library for statistical analysis of biological sequences. It provides efficient sequence data structures and a broad set of generative and discriminative models for parameter learning, along with tools to assess and compare classifiers on test datasets or via cross-validation using multiple performance measures.
 
@@ -31,7 +31,7 @@ To install into your local maven repository:
 mvn clean install
 ```
 
-The jar is created at `target/jstacs-core-2.5.0-SNAPSHOT.jar`.
+The jar is created in folder `target/`.
 
 ## Organization of the library
 

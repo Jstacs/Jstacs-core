@@ -9,7 +9,22 @@
   <packaging>jar</packaging>
 
   <name>Jstacs Core</name>
-  <description>Jstacs core library.</description>
+  <description>A library for statistical analysis of biological sequences.</description>
+  <url>https://jstacs.de</url>
+
+  <licenses>
+    <license>
+      <name>GNU General Public License, version 3 or later (GPL-3.0-or-later)</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/jstacs/jstacs-core.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:jstacs/jstacs-core.git</developerConnection>
+    <url>https://github.com/jstacs/jstacs-core</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
