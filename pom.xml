@@ -19,6 +19,34 @@
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <id>jgraux</id>
+      <name>Jan Grau</name>
+      <email>grau@informatik.uni-halle.de</email>
+      <organization>Martin-Luther-Universität Halle-Wittenberg</organization>
+      <organizationUrl>https://www.informatik.uni-halle.de</organizationUrl>
+    </developer>
+    <developer>
+      <id>JensKeilwangen</id>
+      <name>Jens Keilwangen</name>
+      <organization>Julius Kühn-Institut</organization>
+      <organizationUrl>https://www.julius-kuehn.de</organizationUrl>
+    </developer>
+    <developer>
+      <id>aerkes</id>
+      <name>Annett Erkes</name>
+      <organization>Martin-Luther-Universität Halle-Wittenberg</organization>
+      <organizationUrl>https://www.informatik.uni-halle.de</organizationUrl>
+    </developer>
+    <developer>
+      <id>lemora</id>
+      <name>Lea Morschel</name>
+      <organization>Martin-Luther-Universität Halle-Wittenberg</organization>
+      <organizationUrl>https://www.informatik.uni-halle.de</organizationUrl>
+    </developer>
+  </developers>
+
   <scm>
     <connection>scm:git:https://github.com/jstacs/jstacs-core.git</connection>
     <developerConnection>scm:git:ssh://git@github.com:jstacs/jstacs-core.git</developerConnection>
