@@ -119,6 +119,15 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>release</id>
+      <properties>
+        <maven.javadoc.skip>false</maven.javadoc.skip>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -163,6 +172,15 @@
               </goals>
             </execution>
           </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <releaseProfiles>release</releaseProfiles>
+          <preparationGoals>clean verify</preparationGoals>
+        </configuration>
       </plugin>
     </plugins>
   </build>
