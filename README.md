@@ -17,7 +17,7 @@ For more information including an API documentation, code examples, FAQs, binari
 - `src/main/java` -- core Java sources under the `de.jstacs` package
 - `src/main/resources` -- runtime assets (native libs, package docs, etc.)
 
-## Building the jar
+## Building via Maven
 
 This repository builds the core library only (no project modules).
 
@@ -29,6 +29,22 @@ To install into your local maven repository:
 
 ```
 mvn clean install
+```
+
+By default, Javadoc generation is skipped during regular builds and installs.
+
+## Building Javadoc on demand
+
+Generate HTML Javadoc into `target/site/apidocs`:
+
+```
+mvn javadoc:javadoc -Dmaven.javadoc.skip=false
+```
+
+Build and attach the Javadoc JAR:
+
+```
+mvn javadoc:jar -Dmaven.javadoc.skip=false
 ```
 
 The jar is created in folder `target/`.
