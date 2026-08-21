@@ -441,7 +441,7 @@ public class GalaxyAdaptor {
 			}
 		}
 		if(l != temp.length) {
-			throw new RuntimeException();
+			throw new RuntimeException("length does not match: " + l + " vs. " + temp.length);
 		}
 		return new ResultSet(temp);
 	}
