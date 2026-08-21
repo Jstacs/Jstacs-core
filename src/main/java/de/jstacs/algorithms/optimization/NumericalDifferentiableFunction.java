@@ -70,6 +70,19 @@ public class NumericalDifferentiableFunction extends DifferentiableFunction {
 	 */
 	@Override
 	public double[] evaluateGradientOfFunction( double[] x ) throws DimensionException, EvaluationException {
+		return evaluateGradientOfFunction(x, 0, getDimensionOfScope());
+	}
+	
+	/**
+	 * Evaluates the gradient of a function at a certain vector (in mathematical
+	 * sense) <code>x</code> numerically between the index <code>start</code> and <code>end</code>.
+	 * 
+	 * @param start the start index (inclusive)
+	 * @param end the start index (exclusive)
+	 * 
+	 * @see DifferentiableFunction#evaluateGradientOfFunction(double[])
+	 */
+	public double[] evaluateGradientOfFunction( double[] x, int start, int end ) throws DimensionException, EvaluationException {
 		int n = getDimensionOfScope();
 		if( x == null || x.length != getDimensionOfScope() ) {
 			if( x != null ) {
@@ -93,7 +106,7 @@ public class NumericalDifferentiableFunction extends DifferentiableFunction {
 		}/**/
 		
 		//better approximation
-		for( int i = 0; i < n; i++ ) {
+		for( int i = start; i < end; i++ ) {
 			double h = x[i];
 			
 			x[i] = h + eps;
@@ -101,7 +114,7 @@ public class NumericalDifferentiableFunction extends DifferentiableFunction {
 			x[i] = h - eps;
 			double fx2 = evaluateFunction( x );
 			gradient[i] = ( fx1 - fx2 ) / (2*eps);
-			//System.out.println( i + "\t" + fx1 + "\t" + fx2 + "\t" + gradient[i] );
+			System.out.println( i + "\t" + fx1 + "\t" + fx2 + "\t" + gradient[i] );
 			
 			x[i] = h;
 		}
@@ -129,14 +142,18 @@ public class NumericalDifferentiableFunction extends DifferentiableFunction {
 	 * @throws EvaluationException if the evaluation of the function does not work
 	 */
 	public static void compare( DifferentiableFunction df, double[] x, double eps ) throws DimensionException, EvaluationException {
+		compare( df, x, eps, 0, df.getDimensionOfScope() );
+	}
+	
+	public static void compare( DifferentiableFunction df, double[] x, double eps, int start, int end ) throws DimensionException, EvaluationException {
 		NumericalDifferentiableFunction nFun = new NumericalDifferentiableFunction(df, eps);
 
 		double[] anaGrad = df.evaluateGradientOfFunction(x);
-		double[] numGrad = nFun.evaluateGradientOfFunction(x);
+		double[] numGrad = nFun.evaluateGradientOfFunction(x, start, end);
 		
 		double max = Double.NEGATIVE_INFINITY, maxPerc=0;
 		System.out.println( "#\tparameter\tanalytical gradient\tnumerical gradient\tabs difference\t|%|" );
-		for( int i = 0; i < anaGrad.length; i++ ) {
+		for( int i = start; i < end; i++ ) {
 			double m = Math.abs(anaGrad[i]-numGrad[i]);
 			double p = m/Math.abs(anaGrad[i])*100;
 			System.out.println( i + "\t" + x[i] + "\t" + anaGrad[i] + "\t" + numGrad[i] + "\t" + m + "\t" + p );
