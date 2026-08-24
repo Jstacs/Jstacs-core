@@ -762,6 +762,22 @@ public abstract class AbstractHMM extends AbstractTrainableStatisticalModel impl
 	 */
 	protected abstract void fillLogStatePosteriorMatrix( double[][] statePosterior, int startPos, int endPos, Sequence seq, boolean silentZero ) throws Exception;
 		
+	
+	/**
+	 * This method returns the log state posterior of all states for a sequence.
+	 * 
+	 * @param startPos the start position within the sequence
+	 * @param endPos the end position within the sequence
+	 * @param seq the sequence
+	 * @param silentZero if silent states should always obtain a posterior probability of zero
+	 * 
+	 * @return the score for each state an each sequence position
+	 * 
+	 * @throws Exception if the state posterior could not be computed, for instance if the model is not trained, ...
+	 */
+	public double[][] getLogStatePosteriorMatrixFor( int startPos, int endPos, Sequence seq ) throws Exception {
+		return getLogStatePosteriorMatrixFor(startPos, endPos, seq, true);
+	}
 	/**
 	 * This method returns the log state posterior of all states for a sequence.
 	 * 
