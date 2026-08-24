@@ -768,14 +768,15 @@ public abstract class AbstractHMM extends AbstractTrainableStatisticalModel impl
 	 * @param startPos the start position within the sequence
 	 * @param endPos the end position within the sequence
 	 * @param seq the sequence
+	 * @param silentZero if silent states should always obtain a posterior probability of zero
 	 * 
 	 * @return the score for each state an each sequence position
 	 * 
 	 * @throws Exception if the state posterior could not be computed, for instance if the model is not trained, ...
 	 */
-	public double[][] getLogStatePosteriorMatrixFor( int startPos, int endPos, Sequence seq ) throws Exception {
+	public double[][] getLogStatePosteriorMatrixFor( int startPos, int endPos, Sequence seq, boolean silentZero ) throws Exception {
 		double[][] m = createMatrixForStatePosterior( startPos, endPos );
-		fillLogStatePosteriorMatrix( m, startPos, endPos, seq, true );
+		fillLogStatePosteriorMatrix( m, startPos, endPos, seq, silentZero );
 		return getFinalStatePosterioriMatrix( m );
 	}
 	
@@ -796,6 +797,30 @@ public abstract class AbstractHMM extends AbstractTrainableStatisticalModel impl
 		return res;
 	}
 	
+	
+	/**
+	 * This method returns the log state posterior of all states for a sequence.
+	 * 
+	 * @param startPos the start position within the sequence
+	 * @param endPos the end position within the sequence
+	 * @param seq the sequence
+	 * @param silentZero if silent states should always obtain a posterior probability of zero
+	 * 
+	 * @return the score for each state an each sequence position
+	 * 
+	 * @throws Exception if the state posterior could not be computed, for instance if the model is not trained, ...
+	 */
+	public double[][] getStatePosteriorMatrixFor( int startPos, int endPos, Sequence seq, boolean silentZero ) throws Exception {
+		double[][] matrix = getLogStatePosteriorMatrixFor( startPos, endPos, seq, silentZero );
+		for( int i = 0; i < matrix.length; i++ ) {
+			for( int j = 0; j < matrix[i].length; j++ ) {
+				matrix[i][j] = Math.exp( matrix[i][j] );
+			}
+		}
+		return matrix;
+	}
+	
+	
 	/**
 	 * This method returns the log state posterior of all states for a sequence.
 	 * 
@@ -808,7 +833,7 @@ public abstract class AbstractHMM extends AbstractTrainableStatisticalModel impl
 	 * @see #getLogStatePosteriorMatrixFor(int, int, Sequence)
 	 */
 	public double[][] getStatePosteriorMatrixFor( Sequence seq ) throws Exception {
-		double[][] matrix = getLogStatePosteriorMatrixFor( 0, seq.getLength()-1, seq );
+		double[][] matrix = getLogStatePosteriorMatrixFor( 0, seq.getLength()-1, seq, true );
 		for( int i = 0; i < matrix.length; i++ ) {
 			for( int j = 0; j < matrix[i].length; j++ ) {
 				matrix[i][j] = Math.exp( matrix[i][j] );
@@ -832,7 +857,7 @@ public abstract class AbstractHMM extends AbstractTrainableStatisticalModel impl
 		double[][][] matrix = new double[data.getNumberOfElements()][][];
 		for( int i = 0; i < matrix.length; i++ ) {
 			Sequence s = data.getElementAt(i);
-			matrix[i] = getLogStatePosteriorMatrixFor( 0, s.getLength()-1, s );
+			matrix[i] = getLogStatePosteriorMatrixFor( 0, s.getLength()-1, s, true );
 		}
 		return matrix;
 	}
