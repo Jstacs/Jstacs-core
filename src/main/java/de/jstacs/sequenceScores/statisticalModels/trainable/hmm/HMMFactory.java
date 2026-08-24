@@ -526,7 +526,7 @@ public class HMMFactory {
 		
 		double ess = 16;
 		
-		DifferentiableHigherOrderHMM hmm = (DifferentiableHigherOrderHMM) createProfileHMM( trainingParameterSet, HMMType.PLAN7, 1, numLayers, con, ess, MState.UNCONDITIONAL, false, null );
+		DifferentiableHigherOrderHMM hmm = (DifferentiableHigherOrderHMM) createProfileHMM( trainingParameterSet, HMMType.PLAN7, 1, numLayers, con, ess, MState.UNCONDITIONAL, false, null, false );
 		
 		
 		
@@ -598,9 +598,9 @@ public class HMMFactory {
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, HMMType type, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs) throws Exception{
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, HMMType type, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs, boolean finalInsert) throws Exception{
 		double[][] initFromTo = getInitFromTo(type, ess);
-		return createProfileHMM( trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle, conditionInitProbs, false );
+		return createProfileHMM( trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle, conditionInitProbs, false, finalInsert );
 	}
 
 	/**
@@ -621,8 +621,8 @@ public class HMMFactory {
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs, boolean insertUniform ) throws Exception{
-		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle?1:0, conditionInitProbs, insertUniform );
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
+		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle?1:0, conditionInitProbs, insertUniform, finalInsert );
 	}
 	
 	/**
@@ -643,11 +643,11 @@ public class HMMFactory {
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform ) throws Exception{
-		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, new MState[]{mState}, joiningStates, conditionInitProbs, insertUniform);
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
+		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, new MState[]{mState}, joiningStates, conditionInitProbs, insertUniform, finalInsert);
 	}
 	
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState[] mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform ) throws Exception{
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState[] mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
 		PseudoTransitionElement[] coreTransitionTemplate = null;
 		AbstractList<Class<? extends DifferentiableEmission>> emList = new LinkedList<Class<? extends DifferentiableEmission>>();
 		ArrayList<PseudoTransitionElement> list = new ArrayList<PseudoTransitionElement>();
@@ -681,8 +681,7 @@ public class HMMFactory {
 		int offset = emList.size();
 		//TODO multiple cores?
 		
-		//createProfileHMMCore( numLayers, initFromTo, order, emList, nameList, list, offset, conditionalMain, coreTransitionTemplate, "" );
-		createProfileHMMCore( numLayers, lastLayer, initFromTo, order, emList, nameList, list, offset, lastStartNodeIndex, mState, coreTransitionTemplate, "", insertClass );
+		createProfileHMMCore( numLayers, lastLayer, initFromTo, order, emList, nameList, list, offset, lastStartNodeIndex, finalInsert, mState, coreTransitionTemplate, "", insertClass );
 		
 		//connect with end chain
 		int[] states = new int[6];
@@ -694,7 +693,7 @@ public class HMMFactory {
 			shiftContext( states, 3 );
 			states[3] = i;
 			addProfileTransitions(initFromTo, order, states, list, lastLayer, newLayer );
-		}		
+		}
 		
 		//end state
 		nameList.add( "F" );
@@ -854,7 +853,12 @@ public class HMMFactory {
 					}
 					refIdx++;
 				} else {
-					em[i] = cl.getConstructor( AlphabetContainer.class, double.class ).newInstance( con, ess[i] );
+					if(conditionInitAPrioriProbs != null){
+						em[i] = cl.getConstructor( AlphabetContainer.class, double.class, double[].class ).newInstance( con, ess[i], conditionInitAPrioriProbs[i] );
+						refIdx++;
+					}else {
+						em[i] = cl.getConstructor( AlphabetContainer.class, double.class ).newInstance( con, ess[i] );
+					}
 				}
 				if( name.charAt(0) == 'M' ) {
 					shape = "rect";
@@ -895,7 +899,7 @@ public class HMMFactory {
 		System.arraycopy( context, s, context, 0, context.length-s );
 	}
 
-	private static void createProfileHMMCore(int numLayers, ArrayList<int[]> lastLayer, double[][] initFromTo, int order, AbstractList<Class<? extends DifferentiableEmission>> emList, AbstractList<String> nameList, AbstractList<PseudoTransitionElement> list, int totalOffset, int lastStartNodeIndex, MState[] mState, PseudoTransitionElement[] coreTransitionTemplate, String suffix, Class<? extends DifferentiableEmission> insertClass ){
+	private static void createProfileHMMCore(int numLayers, ArrayList<int[]> lastLayer, double[][] initFromTo, int order, AbstractList<Class<? extends DifferentiableEmission>> emList, AbstractList<String> nameList, AbstractList<PseudoTransitionElement> list, int totalOffset, int lastStartNodeIndex, boolean finalInsert, MState[] mState, PseudoTransitionElement[] coreTransitionTemplate, String suffix, Class<? extends DifferentiableEmission> insertClass ){
 		if( order < 1 ) {
 			throw new IllegalArgumentException("The order of a profile HMM has to be at least 1.");
 		}
@@ -936,7 +940,7 @@ public class HMMFactory {
 		boolean[] createStates = new boolean[3];
 		Arrays.fill( createStates, true );
 		for( int i=0;i<numLayers;i++ ){
-			if( i == numLayers-1 ) {
+			if( i == numLayers-1 && !finalInsert ) {
 				for( int j = 0; j < createStates.length; j++ ) {
 					createStates[j] = !Double.isNaN( initFromTo[j][3] ); 
 				}
@@ -955,10 +959,15 @@ public class HMMFactory {
 		nameList.add( "D"+(numLayers+1)+suffix);
 		
 		shiftContext( states, 3 );
-		states[3] = emList.size()-1;
-		states[4] = -1;
-		states[5] = -1;
+		states[3] = states[4] = states[5] = -1;
+		if(finalInsert) {
+			states[5] = emList.size()-1;
+		}else {
+			states[3] = emList.size()-1;
+		}
 		addProfileTransitions( initFromTo, order, states, list, lastLayer, newLayer );	
+		
+		
 	}
 	
 	private static void addProfileTransitions( double[][] initFromTo, int order, int[] states, List<PseudoTransitionElement> allTE, List<int[]> lastLayer, List<int[]> newLayer ) {		
