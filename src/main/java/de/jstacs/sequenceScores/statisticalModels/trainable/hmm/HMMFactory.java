@@ -594,7 +594,8 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState the type of match state
 	 * @param closeCircle if <code>true</code> the circle from end to initial state is closed, i.e., the HMM can be traversed several times
-	 * @param conditionInitProbs the hyper-parameters for initializing the match states if <code>conditionalMain</code> is <code>true</code>. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param finalInsert if an insert state should be present after the final match state
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
@@ -615,8 +616,9 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState the type of match state
 	 * @param closeCircle if <code>true</code> the circle from end to initial state is closed, i.e., the HMM can be traversed several times
-	 * @param conditionInitProbs the hyper-parameters for initializing the match states if <code>conditionalMain</code> is <code>true</code>. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
+	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
@@ -637,8 +639,9 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState type of the match states ({@link ReferenceSequenceDiscreteEmission}s, {@link DiscreteEmission}s)
 	 * @param joiningStates the number of states used in the joining arc, if not positive the profile HMM does not contain any joining states (i.e. the circle is not closed)
-	 * @param conditionInitProbs the hyper-parameters for initializing the match states if <code>conditionalMain</code> is <code>true</code>. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
+	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
@@ -647,6 +650,25 @@ public class HMMFactory {
 		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, new MState[]{mState}, joiningStates, conditionInitProbs, insertUniform, finalInsert);
 	}
 	
+	/**
+	 * Creates a new profile HMM for a given architecture and number of layers.
+	 * 
+	 * @param trainingParameterSet the parameters of the algorithm for learning the model parameters
+	 * @param initFromTo hyper-parameters of the transition from each state (first dimension) of the current layer to each other state in the same layer (first three entries of the second dimension)
+	 * 						and the next layer (next three entries in the second dimension). If a hyper-parameter is set to {@link Double#NaN}, the corresponding transition is not allowed
+	 * @param order the order of the HMM, i.e., the number of previous states that are considered for a transition probability
+	 * @param numLayers the number of layers of the profile HMM
+	 * @param con the alphabet of the profile HMM
+	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
+	 * @param mState types of each of the match states ({@link ReferenceSequenceDiscreteEmission}s, {@link DiscreteEmission}s)
+	 * @param joiningStates the number of states used in the joining arc, if not positive the profile HMM does not contain any joining states (i.e. the circle is not closed)
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
+	 * @param finalInsert if an insert state should be present after the final match state
+	 * 
+	 * @return the profile HMM
+	 * @throws Exception if the profile HMM could not be created
+	 */
 	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState[] mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
 		PseudoTransitionElement[] coreTransitionTemplate = null;
 		AbstractList<Class<? extends DifferentiableEmission>> emList = new LinkedList<Class<? extends DifferentiableEmission>>();
