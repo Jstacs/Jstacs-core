@@ -54,6 +54,19 @@ public class DiscreteEmission extends AbstractConditionalDiscreteEmission {
 	public DiscreteEmission( AlphabetContainer con, double[] hyperParams ) throws WrongAlphabetException {
 		super( con, new double[][]{hyperParams} );
 	}
+	
+	/**
+	 * This is a simple constructor for a {@link DiscreteEmission} defining the individual hyper parameters.
+	 * 
+	 * @param con the {@link AlphabetContainer} of this emission
+	 * @param hyperParams the individual hyper parameters for each parameter
+	 * @param initHyperParams the individual hyper parameters for each parameter used in {@link #initializeFunctionRandomly()}
+	 * 
+	 * @throws WrongAlphabetException if the {@link AlphabetContainer} is not discrete or simple
+	 */
+	public DiscreteEmission( AlphabetContainer con, double ess, double[] initHyperParams ) throws WrongAlphabetException {
+		super( con, getHyperParams(ess, 1, (int)con.getAlphabetLengthAt(0)), new double[][] {initHyperParams} );
+	}
 
 	/**
 	 * Creates a {@link DiscreteEmission} from its XML representation.
