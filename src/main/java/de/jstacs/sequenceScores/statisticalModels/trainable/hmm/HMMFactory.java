@@ -876,7 +876,7 @@ public class HMMFactory {
 					refIdx++;
 				} else {
 					if(conditionInitAPrioriProbs != null){
-						em[i] = cl.getConstructor( AlphabetContainer.class, double.class, double[].class ).newInstance( con, ess[i], conditionInitAPrioriProbs[i] );
+						em[i] = cl.getConstructor( AlphabetContainer.class, double.class, double[].class ).newInstance( con, ess[i], conditionInitAPrioriProbs[refIdx] );
 						refIdx++;
 					}else {
 						em[i] = cl.getConstructor( AlphabetContainer.class, double.class ).newInstance( con, ess[i] );
