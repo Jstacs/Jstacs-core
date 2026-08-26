@@ -526,7 +526,7 @@ public class HMMFactory {
 		
 		double ess = 16;
 		
-		DifferentiableHigherOrderHMM hmm = (DifferentiableHigherOrderHMM) createProfileHMM( trainingParameterSet, HMMType.PLAN7, 1, numLayers, con, ess, MState.UNCONDITIONAL, false, null );
+		DifferentiableHigherOrderHMM hmm = (DifferentiableHigherOrderHMM) createProfileHMM( trainingParameterSet, HMMType.PLAN7, 1, numLayers, con, ess, MState.UNCONDITIONAL, false, null, false );
 		
 		
 		
@@ -594,13 +594,14 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState the type of match state
 	 * @param closeCircle if <code>true</code> the circle from end to initial state is closed, i.e., the HMM can be traversed several times
-	 * @param conditionInitProbs the hyper-parameters for initializing the match states if <code>conditionalMain</code> is <code>true</code>. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param finalInsert if an insert state should be present after the final match state
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, HMMType type, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs) throws Exception{
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, HMMType type, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs, boolean finalInsert) throws Exception{
 		double[][] initFromTo = getInitFromTo(type, ess);
-		return createProfileHMM( trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle, conditionInitProbs, false );
+		return createProfileHMM( trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle, conditionInitProbs, false, finalInsert );
 	}
 
 	/**
@@ -615,14 +616,15 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState the type of match state
 	 * @param closeCircle if <code>true</code> the circle from end to initial state is closed, i.e., the HMM can be traversed several times
-	 * @param conditionInitProbs the hyper-parameters for initializing the match states if <code>conditionalMain</code> is <code>true</code>. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
+	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs, boolean insertUniform ) throws Exception{
-		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle?1:0, conditionInitProbs, insertUniform );
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, boolean closeCircle, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
+		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, mState, closeCircle?1:0, conditionInitProbs, insertUniform, finalInsert );
 	}
 	
 	/**
@@ -637,17 +639,37 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState type of the match states ({@link ReferenceSequenceDiscreteEmission}s, {@link DiscreteEmission}s)
 	 * @param joiningStates the number of states used in the joining arc, if not positive the profile HMM does not contain any joining states (i.e. the circle is not closed)
-	 * @param conditionInitProbs the hyper-parameters for initializing the match states if <code>conditionalMain</code> is <code>true</code>. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
+	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
 	 */
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform ) throws Exception{
-		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, new MState[]{mState}, joiningStates, conditionInitProbs, insertUniform);
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
+		return createProfileHMM(trainingParameterSet, initFromTo, order, numLayers, con, ess, new MState[]{mState}, joiningStates, conditionInitProbs, insertUniform, finalInsert);
 	}
 	
-	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState[] mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform ) throws Exception{
+	/**
+	 * Creates a new profile HMM for a given architecture and number of layers.
+	 * 
+	 * @param trainingParameterSet the parameters of the algorithm for learning the model parameters
+	 * @param initFromTo hyper-parameters of the transition from each state (first dimension) of the current layer to each other state in the same layer (first three entries of the second dimension)
+	 * 						and the next layer (next three entries in the second dimension). If a hyper-parameter is set to {@link Double#NaN}, the corresponding transition is not allowed
+	 * @param order the order of the HMM, i.e., the number of previous states that are considered for a transition probability
+	 * @param numLayers the number of layers of the profile HMM
+	 * @param con the alphabet of the profile HMM
+	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
+	 * @param mState types of each of the match states ({@link ReferenceSequenceDiscreteEmission}s, {@link DiscreteEmission}s)
+	 * @param joiningStates the number of states used in the joining arc, if not positive the profile HMM does not contain any joining states (i.e. the circle is not closed)
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
+	 * @param finalInsert if an insert state should be present after the final match state
+	 * 
+	 * @return the profile HMM
+	 * @throws Exception if the profile HMM could not be created
+	 */
+	public static AbstractHMM createProfileHMM(MaxHMMTrainingParameterSet trainingParameterSet, double[][] initFromTo, int order, int numLayers, AlphabetContainer con, double ess, MState[] mState, int joiningStates, double[][] conditionInitProbs, boolean insertUniform, boolean finalInsert ) throws Exception{
 		PseudoTransitionElement[] coreTransitionTemplate = null;
 		AbstractList<Class<? extends DifferentiableEmission>> emList = new LinkedList<Class<? extends DifferentiableEmission>>();
 		ArrayList<PseudoTransitionElement> list = new ArrayList<PseudoTransitionElement>();
@@ -681,8 +703,7 @@ public class HMMFactory {
 		int offset = emList.size();
 		//TODO multiple cores?
 		
-		//createProfileHMMCore( numLayers, initFromTo, order, emList, nameList, list, offset, conditionalMain, coreTransitionTemplate, "" );
-		createProfileHMMCore( numLayers, lastLayer, initFromTo, order, emList, nameList, list, offset, lastStartNodeIndex, mState, coreTransitionTemplate, "", insertClass );
+		createProfileHMMCore( numLayers, lastLayer, initFromTo, order, emList, nameList, list, offset, lastStartNodeIndex, finalInsert, mState, coreTransitionTemplate, "", insertClass );
 		
 		//connect with end chain
 		int[] states = new int[6];
@@ -694,7 +715,7 @@ public class HMMFactory {
 			shiftContext( states, 3 );
 			states[3] = i;
 			addProfileTransitions(initFromTo, order, states, list, lastLayer, newLayer );
-		}		
+		}
 		
 		//end state
 		nameList.add( "F" );
@@ -854,7 +875,12 @@ public class HMMFactory {
 					}
 					refIdx++;
 				} else {
-					em[i] = cl.getConstructor( AlphabetContainer.class, double.class ).newInstance( con, ess[i] );
+					if(conditionInitAPrioriProbs != null){
+						em[i] = cl.getConstructor( AlphabetContainer.class, double.class, double[].class ).newInstance( con, ess[i], conditionInitAPrioriProbs[refIdx] );
+						refIdx++;
+					}else {
+						em[i] = cl.getConstructor( AlphabetContainer.class, double.class ).newInstance( con, ess[i] );
+					}
 				}
 				if( name.charAt(0) == 'M' ) {
 					shape = "rect";
@@ -895,7 +921,7 @@ public class HMMFactory {
 		System.arraycopy( context, s, context, 0, context.length-s );
 	}
 
-	private static void createProfileHMMCore(int numLayers, ArrayList<int[]> lastLayer, double[][] initFromTo, int order, AbstractList<Class<? extends DifferentiableEmission>> emList, AbstractList<String> nameList, AbstractList<PseudoTransitionElement> list, int totalOffset, int lastStartNodeIndex, MState[] mState, PseudoTransitionElement[] coreTransitionTemplate, String suffix, Class<? extends DifferentiableEmission> insertClass ){
+	private static void createProfileHMMCore(int numLayers, ArrayList<int[]> lastLayer, double[][] initFromTo, int order, AbstractList<Class<? extends DifferentiableEmission>> emList, AbstractList<String> nameList, AbstractList<PseudoTransitionElement> list, int totalOffset, int lastStartNodeIndex, boolean finalInsert, MState[] mState, PseudoTransitionElement[] coreTransitionTemplate, String suffix, Class<? extends DifferentiableEmission> insertClass ){
 		if( order < 1 ) {
 			throw new IllegalArgumentException("The order of a profile HMM has to be at least 1.");
 		}
@@ -936,7 +962,7 @@ public class HMMFactory {
 		boolean[] createStates = new boolean[3];
 		Arrays.fill( createStates, true );
 		for( int i=0;i<numLayers;i++ ){
-			if( i == numLayers-1 ) {
+			if( i == numLayers-1 && !finalInsert ) {
 				for( int j = 0; j < createStates.length; j++ ) {
 					createStates[j] = !Double.isNaN( initFromTo[j][3] ); 
 				}
@@ -955,10 +981,15 @@ public class HMMFactory {
 		nameList.add( "D"+(numLayers+1)+suffix);
 		
 		shiftContext( states, 3 );
-		states[3] = emList.size()-1;
-		states[4] = -1;
-		states[5] = -1;
+		states[3] = states[4] = states[5] = -1;
+		if(finalInsert) {
+			states[5] = emList.size()-1;
+		}else {
+			states[3] = emList.size()-1;
+		}
 		addProfileTransitions( initFromTo, order, states, list, lastLayer, newLayer );	
+		
+		
 	}
 	
 	private static void addProfileTransitions( double[][] initFromTo, int order, int[] states, List<PseudoTransitionElement> allTE, List<int[]> lastLayer, List<int[]> newLayer ) {		
