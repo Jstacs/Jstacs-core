@@ -594,7 +594,7 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState the type of match state
 	 * @param closeCircle if <code>true</code> the circle from end to initial state is closed, i.e., the HMM can be traversed several times
-	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match and insert states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match and insert state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param finalInsert if an insert state should be present after the final match state
 	 * @return the profile HMM
 	 * @throws Exception if the profile HMM could not be created
@@ -616,7 +616,7 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState the type of match state
 	 * @param closeCircle if <code>true</code> the circle from end to initial state is closed, i.e., the HMM can be traversed several times
-	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match and insert states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match and insert state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
 	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
@@ -639,7 +639,7 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState type of the match states ({@link ReferenceSequenceDiscreteEmission}s, {@link DiscreteEmission}s)
 	 * @param joiningStates the number of states used in the joining arc, if not positive the profile HMM does not contain any joining states (i.e. the circle is not closed)
-	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match and insert states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match and insert state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
 	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
@@ -662,7 +662,7 @@ public class HMMFactory {
 	 * @param ess the equivalent sample size, is propagated between states to obtain consistent hyper-parameters for all parameters
 	 * @param mState types of each of the match states ({@link ReferenceSequenceDiscreteEmission}s, {@link DiscreteEmission}s)
 	 * @param joiningStates the number of states used in the joining arc, if not positive the profile HMM does not contain any joining states (i.e. the circle is not closed)
-	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
+	 * @param conditionInitProbs the hyper-parameters for initializing each match state if <code>mState</code> is <code>REFERENCE</code>; the hyper-parameters for initializing the match and insert states if <code>mState</code> is <code>UNCONDITIONAL</code>, one per match and insert state in the same order. May be <code>null</code> for using the hyper-parameters of the prior
 	 * @param insertUniform if <code>true</code> the insert states will use {@link UniformEmission}s
 	 * @param finalInsert if an insert state should be present after the final match state
 	 * 
