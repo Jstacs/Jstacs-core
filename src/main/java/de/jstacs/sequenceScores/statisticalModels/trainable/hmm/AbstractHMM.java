@@ -793,7 +793,7 @@ public abstract class AbstractHMM extends AbstractTrainableStatisticalModel impl
 	public double[][] getLogStatePosteriorMatrixFor( int startPos, int endPos, Sequence seq, boolean silentZero ) throws Exception {
 		double[][] m = createMatrixForStatePosterior( startPos, endPos );
 		fillLogStatePosteriorMatrix( m, startPos, endPos, seq, silentZero );
-		return getFinalStatePosterioriMatrix( m );
+		return silentZero ? getFinalStatePosterioriMatrix( m ) : m;
 	}
 	
 	/**
