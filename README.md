@@ -4,61 +4,63 @@
 
 Jstacs is an open-source Java library for statistical analysis of biological sequences. It provides efficient sequence data structures and a broad set of generative and discriminative models for parameter learning, along with tools to assess and compare classifiers on test datasets or via cross-validation using multiple performance measures.
 
-For more information including an API documentation, code examples, FAQs, binaries and a cookbook visit http://www.jstacs.de.
+For more information, including API documentation, code examples, FAQs, binaries, and a cookbook, visit [http://www.jstacs.de](http://www.jstacs.de).
 
 ## Prerequisites
 
-- Java 17
+- Java 17+
 - Apache Maven 3.6+
-- Maven downloads dependencies from configured repositories: ensure network access for the first build.
+- Network access for Maven dependency resolution on the first build
 
-## Repository layout
+## Building
 
-- `src/main/java` -- core Java sources under the `de.jstacs` package
-- `src/main/resources` -- runtime assets (native libs, package docs, etc.)
+Build the core library:
 
-## Building via Maven
-
-This repository builds the core library only (no project modules).
-
-```
+```bash
 mvn clean package
 ```
 
-To install into your local maven repository:
+Install it into your local Maven repository:
 
-```
+```bash
 mvn clean install
 ```
 
 By default, Javadoc generation is skipped during regular builds and installs.
 
-## Building Javadoc on demand
+## Javadoc
 
-Generate HTML Javadoc into `target/site/apidocs`:
+Generate HTML Javadoc in `target/site/apidocs`:
 
-```
+```bash
 mvn javadoc:javadoc -Dmaven.javadoc.skip=false
 ```
 
 Build and attach the Javadoc JAR:
 
-```
+```bash
 mvn javadoc:jar -Dmaven.javadoc.skip=false
 ```
 
-The jar is created in folder `target/`.
+## Repository layout
+
+- `src/main/java` — core Java sources under the `de.jstacs` package
+- `src/main/resources` — runtime assets such as native libraries and package documentation
 
 ## Organization of the library
 
-Jstacs core classes may be found in sub-packages of de.jstacs.
+Jstacs core classes are located in sub-packages of `de.jstacs`.
 
-A list of projects that are based on Jstacs, including binaries documentation of user parameters is available at http://jstacs.de/index.php/Projects.
+A list of projects based on Jstacs, including binaries and documentation of user parameters, is available at [http://jstacs.de/index.php/Projects](http://jstacs.de/index.php/Projects).
 
-Building upon Jstacs, [JstacsFX](https://github.com/Jstacs/JstacsFX) visualizes parameters and results in a JavaFX-based GUI that is built upon the generic de.jstacs.tools.JstacsTool class.
+[JstacsFX](https://github.com/Jstacs/JstacsFX) provides a JavaFX-based GUI built around the generic `de.jstacs.tools.JstacsTool` class.
 
-## Licensing information
+## Contributing
 
-Jstacs is free software: you can redistribute it and/or modify under the terms of the GNU General Public License version 3 or (at your option) any later version as published by the Free Software Foundation.
+Development, testing, pull request, and release instructions are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-For more information, please read LICENSE.
+## License
+
+Jstacs is free software distributed under the terms of the GNU General Public License version 3, or any later version.
+
+See [LICENSE](LICENSE) for details.
