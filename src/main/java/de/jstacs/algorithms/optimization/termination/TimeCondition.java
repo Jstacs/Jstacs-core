@@ -111,7 +111,7 @@ public class TimeCondition extends AbstractTerminationCondition {
 						"seconds",
 						"the number of seconds until stopping the algorithm",
 						true,
-						new NumberValidator<Double>( new Double( 0 ), new Double( Double.MAX_VALUE ) ) ) );
+						new NumberValidator<Double>( Double.valueOf( 0 ), Double.valueOf( Double.MAX_VALUE ) ) ) );
 			} catch( Exception e ) {
 				//does not happen
 				RuntimeException re = new RuntimeException(e.getMessage());

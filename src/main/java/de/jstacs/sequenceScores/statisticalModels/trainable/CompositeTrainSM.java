@@ -186,7 +186,7 @@ public class CompositeTrainSM extends AbstractTrainableStatisticalModel {
 						.add(new NumericalResult("model number",
 								"type of model "
 										+ models[i].getClass().getSimpleName(),
-								new Integer(i)));
+								Integer.valueOf(i)));
 				for (j = 0; j < part.getNumberOfResults(); j++) {
 					infos.add(part.getResultAt(j));
 				}
@@ -260,7 +260,7 @@ public class CompositeTrainSM extends AbstractTrainableStatisticalModel {
 						.add(new NumericalResult("model number",
 								"type of model "
 										+ models[i].getClass().getSimpleName(),
-								new Integer(i)));
+								Integer.valueOf(i)));
 				for (j = 0; j < part.getNumberOfResults(); j++) {
 					infos.add(part.getResultAt(j));
 				}

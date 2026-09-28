@@ -106,7 +106,7 @@ public class IterationCondition extends AbstractTerminationCondition {
 						"maximal iteration",
 						"the maximal number of iterations for stopping an algorithm",
 						true,
-						new NumberValidator<Integer>( new Integer( 0 ), new Integer( Integer.MAX_VALUE ) ) ) );
+						new NumberValidator<Integer>( Integer.valueOf( 0 ), Integer.valueOf( Integer.MAX_VALUE ) ) ) );
 			} catch( Exception e ) {
 				//does not happen
 				RuntimeException re = new RuntimeException(e.getMessage());

@@ -109,7 +109,7 @@ public abstract class HomogeneousTrainSMParameterSet extends DGTrainSMParameterS
 				"the order of the model specifies the number of used ancestors of a random variable that are used to determine its propability",
 				true,
 				new NumberValidator<Byte>( (byte)0, Byte.MAX_VALUE ) ) );
-		parameters.get( 2 ).setValue( new Byte( order ) );
+		parameters.get( 2 ).setValue( Byte.valueOf( order ) );
 	}
 
 	/* (non-Javadoc)

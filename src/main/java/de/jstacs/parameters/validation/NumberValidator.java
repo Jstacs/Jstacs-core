@@ -181,23 +181,23 @@ public class NumberValidator<E extends Comparable<? extends Number>> implements
 			String upper = XMLParser.extractObjectForTags(representation, "upperBound", String.class );
 
 			if (clazz.equals(Double.class)) {
-				lowerBound = (E) new Double(lower);
-				upperBound = (E) new Double(upper);
+				lowerBound = (E) Double.valueOf(lower);
+				upperBound = (E) Double.valueOf(upper);
 			} else if (clazz.equals(Float.class)) {
-				lowerBound = (E) new Float(lower);
-				upperBound = (E) new Float(upper);
+				lowerBound = (E) Float.valueOf(lower);
+				upperBound = (E) Float.valueOf(upper);
 			} else if (clazz.equals(Byte.class)) {
-				lowerBound = (E) new Byte(lower);
-				upperBound = (E) new Byte(upper);
+				lowerBound = (E) Byte.valueOf(lower);
+				upperBound = (E) Byte.valueOf(upper);
 			} else if (clazz.equals(Short.class)) {
-				lowerBound = (E) new Short(lower);
-				upperBound = (E) new Short(upper);
+				lowerBound = (E) Short.valueOf(lower);
+				upperBound = (E) Short.valueOf(upper);
 			} else if (clazz.equals(Integer.class)) {
-				lowerBound = (E) new Integer(lower);
-				upperBound = (E) new Integer(upper);
+				lowerBound = (E) Integer.valueOf(lower);
+				upperBound = (E) Integer.valueOf(upper);
 			} else if (clazz.equals(Long.class)) {
-				lowerBound = (E) new Long(lower);
-				upperBound = (E) new Long(upper);
+				lowerBound = (E) Long.valueOf(lower);
+				upperBound = (E) Long.valueOf(upper);
 			} else {
 				throw new NonParsableException();
 			}

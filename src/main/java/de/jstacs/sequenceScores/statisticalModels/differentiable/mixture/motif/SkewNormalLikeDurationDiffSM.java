@@ -161,7 +161,7 @@ public class SkewNormalLikeDurationDiffSM extends DurationDiffSM
 			Hashtable<Integer, double[]> hash = new Hashtable<Integer, double[]>();
 			DiscreteAlphabet abc = (DiscreteAlphabet) alphabets.getAlphabetAt( 0 );
 			for( ; i < data[index].getNumberOfElements(); i++ ) {
-				val = new Integer( abc.getSymbolAt( data[index].getElementAt(i).discreteVal(0) ) );
+				val = Integer.valueOf( abc.getSymbolAt( data[index].getElementAt(i).discreteVal(0) ) );
 				if( weights != null && weights[index] != null ) {
 					w = weights[index][i];
 				}

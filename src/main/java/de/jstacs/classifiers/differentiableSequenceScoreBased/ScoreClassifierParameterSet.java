@@ -228,7 +228,7 @@ public abstract class ScoreClassifierParameterSet extends SequenceScoringParamet
 				"free parameters",
 				"Indicates whether only the free parameters or all parameters should be used.",
 				true,
-				new Boolean( false ) ) );
+				Boolean.valueOf( false ) ) );
 		parameters.add( new EnumParameter( KindOfParameter.class,
 				"Indicates whether special plugIn parameters or the zero vector should be used as start parameters. For non-concave problems it is highly recommended to use plugIn parameters.",
 				true, KindOfParameter.PLUGIN.name() ) );

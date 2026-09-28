@@ -121,7 +121,7 @@ public class KFoldCrossValidationAssessParameterSet extends ClassifierAssessment
 	public KFoldCrossValidationAssessParameterSet( PartitionMethod dataSplitMethod, int elementLength, boolean exceptionIfMPNotComputable, int k ) throws ParameterException {
 		super( elementLength, exceptionIfMPNotComputable );
 		addParameters();
-		( this.parameters.get( "k" ) ).setValue( new Integer( k ) );
+		( this.parameters.get( "k" ) ).setValue( Integer.valueOf( k ) );
 
 		( this.parameters.get( PartitionMethod.class.getSimpleName() ) ).setValue( dataSplitMethod );
 	}

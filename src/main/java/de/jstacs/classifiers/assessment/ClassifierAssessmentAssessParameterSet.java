@@ -142,8 +142,8 @@ public class ClassifierAssessmentAssessParameterSet extends ParameterSet {
 	 */
 	public ClassifierAssessmentAssessParameterSet( int elementLength, boolean exceptionIfMPNotComputable ) throws IllegalValueException, UnsupportedOperationException {
 		this();
-		this.parameters.get( "elementLength" ).setValue( new Integer( elementLength ) );
-		this.parameters.get( "exceptionIfMeasureParamaterNotComputable" ).setValue( new Boolean( exceptionIfMPNotComputable ) );
+		this.parameters.get( "elementLength" ).setValue( Integer.valueOf( elementLength ) );
+		this.parameters.get( "exceptionIfMeasureParamaterNotComputable" ).setValue( Boolean.valueOf( exceptionIfMPNotComputable ) );
 	}
 
 	//	**********************
