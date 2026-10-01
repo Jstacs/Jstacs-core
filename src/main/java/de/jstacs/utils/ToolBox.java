@@ -488,13 +488,12 @@ public class ToolBox {
 		double n = rankTruth.length;
 		
 		for(int i=0;i<rankTruth.length;i++){
-			sumTruth += rankTruth[i];
-			sumPred += rankPred[i];
-			sqTruth += rankTruth[i]*rankTruth[i];
-			sqPred += rankPred[i]*rankPred[i];
-			cross += rankTruth[i]*rankPred[i];
+			sumTruth += (double)rankTruth[i];
+			sumPred += (double)rankPred[i];
+			sqTruth += (double)rankTruth[i]*(double)rankTruth[i];
+			sqPred += (double)rankPred[i]*(double)rankPred[i];
+			cross += (double)rankTruth[i]*(double)rankPred[i];
 		}
-		
 		return (cross - sumTruth*sumPred/n)/( Math.sqrt( sqTruth - sumTruth*sumTruth/n )*Math.sqrt( sqPred - sumPred*sumPred/n) );
 	}
 	
