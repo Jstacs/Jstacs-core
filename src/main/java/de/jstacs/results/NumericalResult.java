@@ -84,7 +84,7 @@ public class NumericalResult extends SimpleResult {
 	 * @see #NumericalResult(DataType, String, String, Comparable)
 	 */
 	public NumericalResult(String name, String comment, double result) {
-		this(DataType.DOUBLE, name, comment, new Double(result));
+		this(DataType.DOUBLE, name, comment, Double.valueOf(result));
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class NumericalResult extends SimpleResult {
 	 * @see #NumericalResult(DataType, String, String, Comparable)
 	 */
 	public NumericalResult(String name, String comment, int result) {
-		this(DataType.INT, name, comment, new Integer(result));
+		this(DataType.INT, name, comment, Integer.valueOf(result));
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class NumericalResult extends SimpleResult {
 	 * @see #NumericalResult(DataType, String, String, Comparable)
 	 */
 	public NumericalResult(String name, String comment, long result) {
-		this(DataType.LONG, name, comment, new Long(result));
+		this(DataType.LONG, name, comment, Long.valueOf(result));
 	}
 	
 	/*

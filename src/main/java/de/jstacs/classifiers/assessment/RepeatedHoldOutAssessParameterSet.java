@@ -134,7 +134,7 @@ public class RepeatedHoldOutAssessParameterSet extends ClassifierAssessmentAsses
 												int repeats, double[] percents ) throws ParameterException, CloneNotSupportedException {
 		super( elementLength, exceptionIfMPNotComputable );
 		addParameters();
-		this.parameters.get( "repeats" ).setValue( new Integer( repeats ) );
+		this.parameters.get( "repeats" ).setValue( Integer.valueOf( repeats ) );
 
 		ParameterSet[] tempPSA = new ParameterSet[percents.length];
 		for( int i = 0; i < tempPSA.length; tempPSA[i] = getParameterSetContainingASingleDoubleValue( percents[i++] ) );

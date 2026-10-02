@@ -139,7 +139,7 @@ public class GenDisMixClassifierParameterSet extends ScoreClassifierParameterSet
 				"Normalize",
 				"If true the conditional likelihood will be normalized to the number of data sets.",
 				true,
-				new Boolean( true ) ) );
+				Boolean.valueOf( true ) ) );
 		parameters.add( getThreadsParameter() );
 		getParameterForName( "Normalize" ).setValue( norm );
 		setNumberOfThreads( threads );

@@ -115,7 +115,7 @@ public class AbsoluteValueCondition extends AbstractTerminationCondition {
 						"absolute value",
 						"if the optimized value is smaller than this value the algorithm is stopped",
 						true,
-						new NumberValidator<Double>( new Double( 0 ), new Double( Double.MAX_VALUE ) ) ) );
+						new NumberValidator<Double>( Double.valueOf( 0 ), Double.valueOf( Double.MAX_VALUE ) ) ) );
 			} catch( Exception e ) {
 				//does not happen
 				RuntimeException re = new RuntimeException(e.getMessage());

@@ -138,16 +138,16 @@ public abstract class SimpleResult extends Result implements
 		if (datatype == DataType.DOUBLE
 				&& (result instanceof Double || result instanceof Float)) {
 			if (result instanceof Float) {
-				this.result = new Double(((Float) result).doubleValue());
+				this.result = Double.valueOf(((Float) result).doubleValue());
 			} else {
 				this.result = result;
 			}
 		} else if (datatype == DataType.INT
 				&& (result instanceof Integer || result instanceof Byte || result instanceof Short)) {
 			if (result instanceof Byte) {
-				this.result = new Integer(((Byte) result).intValue());
+				this.result = Integer.valueOf(((Byte) result).intValue());
 			} else if (result instanceof Short) {
-				this.result = new Integer(((Short) result).intValue());
+				this.result = Integer.valueOf(((Short) result).intValue());
 			} else {
 				this.result = result;
 			}
@@ -159,13 +159,13 @@ public abstract class SimpleResult extends Result implements
 			this.result = result;
 		} else if (result instanceof String) {
 			if (datatype == DataType.DOUBLE) {
-				this.result = new Double((String) result);
+				this.result = Double.valueOf((String) result);
 			} else if (datatype == DataType.INT) {
-				this.result = new Integer((String) result);
+				this.result = Integer.valueOf((String) result);
 			} else if (datatype == DataType.BOOLEAN) {
-				this.result = new Boolean((String) result);
+				this.result = Boolean.valueOf((String) result);
 			} else if (datatype == DataType.LONG) {
-				this.result = new Long((String) result);
+				this.result = Long.valueOf((String) result);
 			} else {
 				throw new IllegalValueException(name,
 						"Value not of the expected datatype!");

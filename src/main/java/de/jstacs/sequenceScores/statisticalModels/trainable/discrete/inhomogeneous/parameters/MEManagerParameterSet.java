@@ -45,12 +45,12 @@ public abstract class MEManagerParameterSet extends IDGTrainSMParameterSet
 			"limited memory quasi newton (B., F., G., S.; n=7)", "limited memory quasi newton (B., F., G., S.; n=8)",
 			"limited memory quasi newton (B., F., G., S.; n=9)", "limited memory quasi newton (B., F., G., S.; n=10)" };
 
-	private static final Byte[] algorithms = new Byte[]{ new Byte( MEMTools.BGIS_P ), new Byte( MEMTools.SGIS_P ),
-			new Byte( MEMTools.GIS ), new Byte( MEMTools.BGIS ), new Byte( MEMTools.SGIS ), new Byte( Optimizer.STEEPEST_DESCENT ),
-			new Byte( Optimizer.CONJUGATE_GRADIENTS_FR ), new Byte( Optimizer.CONJUGATE_GRADIENTS_PRP ),
-			new Byte( Optimizer.QUASI_NEWTON_DFP ), new Byte( Optimizer.QUASI_NEWTON_BFGS ), new Byte( (byte) 3 ),
-			new Byte( (byte) 4 ), new Byte( (byte) 5 ), new Byte( (byte) 6 ), new Byte( (byte) 7 ),
-			new Byte( (byte) 8 ), new Byte( (byte) 9 ), new Byte( (byte) 10 ) };
+	private static final Byte[] algorithms = new Byte[]{ Byte.valueOf( MEMTools.BGIS_P ), Byte.valueOf( MEMTools.SGIS_P ),
+			Byte.valueOf( MEMTools.GIS ), Byte.valueOf( MEMTools.BGIS ), Byte.valueOf( MEMTools.SGIS ), Byte.valueOf( Optimizer.STEEPEST_DESCENT ),
+			Byte.valueOf( Optimizer.CONJUGATE_GRADIENTS_FR ), Byte.valueOf( Optimizer.CONJUGATE_GRADIENTS_PRP ),
+			Byte.valueOf( Optimizer.QUASI_NEWTON_DFP ), Byte.valueOf( Optimizer.QUASI_NEWTON_BFGS ), Byte.valueOf( (byte) 3 ),
+			Byte.valueOf( (byte) 4 ), Byte.valueOf( (byte) 5 ), Byte.valueOf( (byte) 6 ), Byte.valueOf( (byte) 7 ),
+			Byte.valueOf( (byte) 8 ), Byte.valueOf( (byte) 9 ), Byte.valueOf( (byte) 10 ) };
 
 	/**
 	 * The constructor for the {@link de.jstacs.Storable} interface.
@@ -116,10 +116,10 @@ public abstract class MEManagerParameterSet extends IDGTrainSMParameterSet
 		super( instanceClass, alphabet, length, ess, description );
 		addParameters();
 		parameters.get( 2 ).setValue( decomposition );
-		parameters.get( 3 ).setValue( new Boolean( reduce ) );
+		parameters.get( 3 ).setValue( Boolean.valueOf( reduce ) );
 		parameters.get( 4 ).setValue(
-				algorithmStrings[getIndex( algorithmStrings, algorithms, new Byte( algorithm ), false )] );
-		parameters.get( 5 ).setValue( new Double( epsilon ) );
+				algorithmStrings[getIndex( algorithmStrings, algorithms, Byte.valueOf( algorithm ), false )] );
+		parameters.get( 5 ).setValue( Double.valueOf( epsilon ) );
 	}
 
 	/**
@@ -132,12 +132,12 @@ public abstract class MEManagerParameterSet extends IDGTrainSMParameterSet
 		parameters.add( new EnumParameter( Decomposition.class, "the kind the model should be decomposed", true ) );
 		parameters.get( 2 ).setDefault( Decomposition.DECOMPOSE_LESS_CONNECTED );
 		parameters.add( new SimpleParameter( DataType.BOOLEAN, "reduce",
-				"whether the constraints should be reduced or not", true, new Boolean( true ) ) );
+				"whether the constraints should be reduced or not", true, Boolean.valueOf( true ) ) );
 		parameters.add( new SelectionParameter( DataType.BYTE, algorithmStrings, algorithms, "algorithm",
 				"the algorithm that should be used for numerical optimization", true ) );
 		parameters.get( 4 ).setDefault( "BGIS (p-space)" );
 		parameters.add( new SimpleParameter( DataType.DOUBLE, "epsilon",
 				"the bound for stopping the numercal optimization algorithm", true, new NumberValidator<Double>(
-						new Double( 0 ), new Double( Double.MAX_VALUE ) ), new Double( 1E-6 ) ) );
+						Double.valueOf( 0 ), Double.valueOf( Double.MAX_VALUE ) ), Double.valueOf( 1E-6 ) ) );
 	}
 }

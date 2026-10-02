@@ -271,12 +271,12 @@ public class SimpleParameter extends Parameter implements GalaxyConvertible {
 			switch ( datatype ) {
 				case BOOLEAN: res = value instanceof Boolean || value instanceof String; break;
 				case CHAR: res = value instanceof Character	|| (value instanceof String && ((String) value).length() == 1); break;
-				case BYTE: res = value instanceof Byte || (value instanceof String && new Byte((String) value) != null ); break;
-				case SHORT: res= value instanceof Short || (value instanceof String && new Short((String) value) != null ); break;
-				case INT: res = value instanceof Integer || (value instanceof String && new Integer((String) value) != null ); break;
-				case LONG: res = value instanceof Long || (value instanceof String && new Long((String) value) != null ); break;
-				case FLOAT: res = value instanceof Float || (value instanceof String && new Float((String) value) != null );break;
-				case DOUBLE: res = value instanceof Double || (value instanceof String && new Double((String) value) != null ); break;
+				case BYTE: res = value instanceof Byte || (value instanceof String && Byte.valueOf((String) value) != null ); break;
+				case SHORT: res= value instanceof Short || (value instanceof String && Short.valueOf((String) value) != null ); break;
+				case INT: res = value instanceof Integer || (value instanceof String && Integer.valueOf((String) value) != null ); break;
+				case LONG: res = value instanceof Long || (value instanceof String && Long.valueOf((String) value) != null ); break;
+				case FLOAT: res = value instanceof Float || (value instanceof String && Float.valueOf((String) value) != null );break;
+				case DOUBLE: res = value instanceof Double || (value instanceof String && Double.valueOf((String) value) != null ); break;
 				case STRING: res = value instanceof String; break;
 				default: res = false;
 			}
@@ -290,14 +290,14 @@ public class SimpleParameter extends Parameter implements GalaxyConvertible {
 					//if (((String) value).length() > 0) {
 					try {
 						switch( datatype ) {
-						case BOOLEAN: value2 = new Boolean((String) value); break;
-						case BYTE: value2 = new Byte((String) value); break;
+						case BOOLEAN: value2 = Boolean.valueOf((String) value); break;
+						case BYTE: value2 = Byte.valueOf((String) value); break;
 						case CHAR: value2 = ((String) value).charAt(0); break;
-						case SHORT: value2 = new Short((String) value); break;
-						case INT: value2 = new Integer((String) value); break;
-						case LONG: value2 = new Long((String) value); break;
-						case FLOAT: value2 = new Float((String) value); break;
-						case DOUBLE: value2 = new Double((String) value); break;
+						case SHORT: value2 = Short.valueOf((String) value); break;
+						case INT: value2 = Integer.valueOf((String) value); break;
+						case LONG: value2 = Long.valueOf((String) value); break;
+						case FLOAT: value2 = Float.valueOf((String) value); break;
+						case DOUBLE: value2 = Double.valueOf((String) value); break;
 						//other datatypes are not allowed for this class
 						}
 					} catch (NumberFormatException e) {
@@ -379,28 +379,28 @@ public class SimpleParameter extends Parameter implements GalaxyConvertible {
 				try {
 					switch (datatype) {
 					case BOOLEAN:
-						value = new Boolean(s);
+						value = Boolean.valueOf(s);
 						break;
 					case CHAR:
 						value = s.charAt(0);
 						break;
 					case BYTE:
-						value = new Byte(s);
+						value = Byte.valueOf(s);
 						break;
 					case SHORT:
-						value = new Short(s);
+						value = Short.valueOf(s);
 						break;
 					case INT:
-						value = new Integer(s);
+						value = Integer.valueOf(s);
 						break;
 					case LONG:
-						value = new Long(s);
+						value = Long.valueOf(s);
 						break;
 					case FLOAT:
-						value = new Float(s);
+						value = Float.valueOf(s);
 						break;
 					case DOUBLE:
-						value = new Double(s);
+						value = Double.valueOf(s);
 						break;
 					default:
 						errorMessage = "Parameter value not of the expected type!";

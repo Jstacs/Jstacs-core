@@ -145,7 +145,7 @@ public abstract class DGTrainSMParameterSet<T extends DiscreteGraphicalTrainSM> 
 					"ESS",
 					"the equivalent sample size",
 					true,
-					new NumberValidator<Double>( new Double( 0 ), new Double( Double.MAX_VALUE ) ) ) );
+					new NumberValidator<Double>( Double.valueOf( 0 ), Double.valueOf( Double.MAX_VALUE ) ) ) );
 			parameters.add( new SimpleParameter( DataType.STRING,
 					"description",
 					"a textual description or comment for the model",

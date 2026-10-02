@@ -1449,7 +1449,7 @@ public abstract class AbstractMixtureTrainSM extends AbstractTrainableStatistica
 		for( ; i < model.length; i++ ) {
 			part = model[i].getCharacteristics();
 			if( part != null && part.getNumberOfResults() > 0 ) {
-				infos.add( new NumericalResult( "model number", "type of model " + model[i].getClass().getSimpleName(), new Integer( i ) ) );
+				infos.add( new NumericalResult( "model number", "type of model " + model[i].getClass().getSimpleName(), Integer.valueOf( i ) ) );
 				for( j = 0; j < part.getNumberOfResults(); j++ ) {
 					infos.add( part.getResultAt( j ) );
 				}
@@ -1469,7 +1469,7 @@ public abstract class AbstractMixtureTrainSM extends AbstractTrainableStatistica
 		for( ; i < model.length; i++ ) {
 			part = model[i].getNumericalCharacteristics();
 			if( part != null && part.getNumberOfResults() > 0 ) {
-				infos.add( new NumericalResult( "model number", "type of model " + model[i].getClass().getSimpleName(), new Integer( i ) ) );
+				infos.add( new NumericalResult( "model number", "type of model " + model[i].getClass().getSimpleName(), Integer.valueOf( i ) ) );
 				for( j = 0; j < part.getNumberOfResults(); j++ ) {
 					infos.add( part.getResultAt( j ) );
 				}

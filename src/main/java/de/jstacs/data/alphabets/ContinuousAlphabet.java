@@ -314,8 +314,8 @@ public class ContinuousAlphabet extends Alphabet {
 		 */
 		public ContinuousAlphabetParameterSet( double min, double max, boolean allowNaN ) throws Exception {
 			this();
-			parameters.get( 0 ).setValue( new Double( min ) );
-			parameters.get( 1 ).setValue( new Double( max ) );
+			parameters.get( 0 ).setValue( Double.valueOf( min ) );
+			parameters.get( 1 ).setValue( Double.valueOf( max ) );
 			parameters.get( 2 ).setValue( allowNaN );
 		}
 
